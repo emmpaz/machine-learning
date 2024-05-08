@@ -23,7 +23,7 @@ X = iris.data
 y = iris.target
 
 #splitting the features by 2'0'% for testing and 8'0'% for training
-X_train, X_test, y_train, y_test  = train_test_split(X, y, test_size=.5, random_state=42)
+X_train, X_test, y_train, y_test  = train_test_split(X, y, test_size=.95, random_state=42)
 
 #scale the training and testing sets to normalize any larger magnitudes
 scaler = StandardScaler()
@@ -52,10 +52,6 @@ lr_accuracy = accuracy_score(y_test, lr_predictions)
 dt_accuracy = accuracy_score(y_test, dt_predictions)
 svm_accuracy = accuracy_score(y_test, svm_predictions)
 
-print("Logistic Regression accuracy:", lr_accuracy)
-print("Decision Tree accuracy:", dt_accuracy)
-print("SVM accuracy:", svm_accuracy)
-
 # Accuracy: overall correctness of model
 # Precision: ability of the model to correctly identify positive instances
 # Recall: measures ability to find all positive instances, ratio of true positive predictions to total actual positives
@@ -81,7 +77,9 @@ def extract_values(report):
 lr_report = classification_report(y_test, lr_predictions, output_dict=True)
 dt_report = classification_report(y_test, dt_predictions, output_dict=True)
 svm_report = classification_report(y_test, svm_predictions, output_dict=True)
-
+print(classification_report(y_test, lr_predictions))
+print(classification_report(y_test, dt_predictions))
+print(classification_report(y_test, svm_predictions))
 lr_values = extract_values(lr_report)
 dt_values = extract_values(dt_report)
 svm_values = extract_values(svm_report)
@@ -92,8 +90,11 @@ report_values = np.array(report_values).reshape(3, -1)
 
 labels = ['Logisitc Regression', 'Decision Tree', 'SVM']
 
+class_labels = ['0', '1', '2', 'macro avg', 'weighted avg']
+metric_labels = ['Precision', 'Recall', 'F1-score']
+xticklabels = [f"{cls}-{metric}" for cls in class_labels for metric in metric_labels]
 fig, ax = plt.subplots(figsize=(10,6))
-sns.heatmap(report_values, annot=True, cmap='YlGnBu', xticklabels=['Precision', 'Recall', 'F1-score'], yticklabels=labels + ['', ''], ax=ax)
+sns.heatmap(report_values, annot=True, cmap='YlGnBu', xticklabels=xticklabels, yticklabels=labels, ax=ax)
 
 ax.set_title('Classification Report Heatmap')
 ax.set_xlabel('Metrics')
