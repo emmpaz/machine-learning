@@ -1,8 +1,8 @@
 import pandas as pd
 from sklearn.model_selection import train_test_split
-from sklearn.linear_model import LogisticRegression
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.metrics import classification_report
+from sklearn.preprocessing import LabelEncoder
 
 class Churn:
     def __init__(self, filename='churn.csv') -> None:
@@ -15,11 +15,15 @@ class Churn:
         X = self.df.drop(axis=1, columns=['Churn'])
         y = self.df['Churn']
 
-        categorical_columns = X.select_dtypes(include=['object']).columns.to_list()
+        tenure_bins = [0, 12, 24, 48, float('inf')]
+        tenure_labels = ['Short', 'Medium', 'Long', 'Very Long']
+
+        X['TenureLevel'] = pd.cut(X['tenure'], bins=tenure_bins, labels=tenure_labels, right=False)
+        X = X.drop('tenure', axis=1)
+
+        categorical_columns = X.select_dtypes(include=['object', 'category']).columns.to_list()
         X = pd.get_dummies(X, columns=categorical_columns)
-        
         y = pd.get_dummies(y, columns=['Churn'])
-    
         return X, y
     
     def split(self, X, y):
@@ -28,12 +32,12 @@ class Churn:
         return X_train, X_test, y_train, y_test
     
     def train(self, X_train, y_train):
-        self.tree = DecisionTreeClassifier()
+        self.tree = DecisionTreeClassifier(random_state=42)
         self.tree.fit(X_train, y_train)
 
     def predict(self, X_test, y_test):
         pred = self.tree.predict(X_test)
-        ac = classification_report(y_test, pred)
+        ac = classification_report(y_test, pred, zero_division=1)
         print(ac)
     
     def main(self):
