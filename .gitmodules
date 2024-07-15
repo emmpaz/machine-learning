@@ -1,0 +1,3 @@
+[submodule "IndeedJobScraper"]
+	path = IndeedJobScraper
+	url = git@github.com:Eben001/IndeedJobScraper.git
