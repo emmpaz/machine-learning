@@ -31,3 +31,7 @@ body {
     text-wrap: balance;
   }
 }
+
+.leaflet-container{
+  height: 100vh;
+}
