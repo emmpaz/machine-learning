@@ -1,29 +1,61 @@
 import Image from "next/image";
-import { getData } from "./data.actions";
+import { aggregateByCity, aggregateByTitle, getData } from "./data.actions";
 import { useCallback, useState } from "react";
 import MyMap from "./components/Map";
 
 export default async function Home() {
-  const data = await getData();
-
-  let coordinates : [];
-  data.map( async (row) => {
-    console.log(row.location);
-    const res = await fetch(`https://nominatim.openstreetmap.org/search?q=${row.location}&format=jsonv2`);
-
-    // const {lat, lon} = await res.json(); 
-  })
+  const count = await getData();
+  const groups = await aggregateByCity();
+  const title = await aggregateByTitle();
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-10">
+    <main className="flex min-h-screen flex-col items-center justify-between">
+      <div className="p-10">
+        <p className="text-8xl">
+          {count.count}
+          <span className="text-xl"> current jobs</span>
+        </p>
+      </div>
+      <div className="grid grid-cols-2">
         <div>
-          {data.map((row) => (
-            <div key={row.job_id}>{row.job_title}, {row.date_posted}</div>
-          ))}
+          <div className="pb-4">
+            <p className="text-5xl border-b-[1px] p-1">by city</p>
+          </div>
+          <div className="overflow-y-auto mb-10">
+            {groups.map((row, index) => (
+              <div key={index} className="p-1">
+                <p className="text-2xl">
+                  {row.posting_count}
+                  <span className="font-light text-base"> jobs in </span>
+                  {row.city}
+                </p>
+              </div>
+            ))}
+          </div>
         </div>
-        <div className="border w-full">
-          <MyMap/>
+        <div>
+          <div className="pb-4">
+            <p className="text-5xl border-b-[1px] p-1">by title</p>
+          </div>
+          <div className="overflow-y-auto">
+            {title.map((row, index) => (
+              <div key={index} className="p-1">
+                <p className="text-2xl">
+                  {row.posting_count}
+                  <span className="font-light text-base"> jobs in </span>
+                  {row.job_title}
+                </p>
+              </div>
+            ))}
+          </div>
+          {/* <div className="border w-full">
+          <MyMap cities={groups}/>
+        </div> */}
         </div>
+      </div>
+      <div className="w-full h-fit">
+        <MyMap/>
+      </div>
     </main>
   );
 }
