@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { aggregateByCity, aggregateByTitle, getData } from "./data.actions";
 import { useCallback, useState } from "react";
-import MyMap from "./components/Map";
+import {DynamicHeatMap, DynamicJobChart} from "./components/DynamicRenderingCharts";
 
 export default async function Home() {
   const count = await getData();
@@ -48,13 +48,13 @@ export default async function Home() {
               </div>
             ))}
           </div>
-          {/* <div className="border w-full">
-          <MyMap cities={groups}/>
-        </div> */}
         </div>
       </div>
       <div className="w-full h-fit">
-        <MyMap/>
+        <DynamicJobChart/>
+      </div>
+      <div className="w-full">
+        <DynamicHeatMap cityCoordinates={groups}/>
       </div>
     </main>
   );
