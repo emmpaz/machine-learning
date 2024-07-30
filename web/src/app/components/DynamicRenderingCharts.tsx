@@ -42,4 +42,22 @@ export function DynamicHeatMap({
     )
 }
 
-export default {DynamicHeatMap, DynamicJobChart}
+
+export function DynamicTrendsChart(){
+
+    const DynamicTrendsChart = useMemo(() => dynamic(
+        () => import('@/app/components/charts/TrendsChart'),
+        {
+            loading: () => <div className='loading loading-spinner border-none'></div>,
+            ssr: false
+        }
+    ), []);
+
+    return(
+        <div className='w-full h-[600px]'>
+            <DynamicTrendsChart></DynamicTrendsChart>
+        </div>
+    )
+}
+
+export default {DynamicHeatMap, DynamicJobChart, DynamicTrendsChart}

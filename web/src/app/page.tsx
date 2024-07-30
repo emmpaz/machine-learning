@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { aggregateByCity, aggregateByTitle, getData } from "./data.actions";
 import { useCallback, useState } from "react";
-import {DynamicHeatMap, DynamicJobChart} from "./components/DynamicRenderingCharts";
+import {DynamicHeatMap, DynamicJobChart, DynamicTrendsChart} from "./components/DynamicRenderingCharts";
 
 export default async function Home() {
   const count = await getData();
@@ -55,6 +55,9 @@ export default async function Home() {
       </div>
       <div className="w-full">
         <DynamicHeatMap cityCoordinates={groups}/>
+      </div>
+      <div className="w-full h-fit">
+        <DynamicTrendsChart/>
       </div>
     </main>
   );

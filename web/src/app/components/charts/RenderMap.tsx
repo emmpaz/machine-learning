@@ -30,7 +30,6 @@ export default function RenderMap({
 
       //const points = [[39.8283, -98.5795, "2000"]]
 
-      console.log(points);
       L.heatLayer(points, {
         radius: 25,
         blur: 40,

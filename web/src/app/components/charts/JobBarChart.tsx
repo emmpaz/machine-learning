@@ -29,10 +29,12 @@ export default function JobBarChart(){
         )
     }
 
+    const maxValue = Math.max(...data.map(city => city.posting_count));
+
     return(
         <ResponsiveContainer width="100%" height='100%'>
             <BarChart data={data}>
-                <YAxis type="number" domain={[0, 'dataMax + 200']}/>
+                <YAxis type="number" domain={[0, maxValue]}/>
                 <Tooltip content={<CustomToolTip/>}/>
                 <Legend/>
                 <Bar dataKey="posting_count" fill="#8884d8"/>
