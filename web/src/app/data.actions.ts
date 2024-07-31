@@ -18,13 +18,13 @@ export type PostingsCount = {
 export type CityGroups = {
     city: string,
     posting_count: number,
-    latitude: number,
-    longitude: number
+    latitude: string,
+    longitude: string
 }
 
 export type JobTitleGroups = {
     job_title: string,
-    posting_count: number
+    posting_count: string
 }
 
 export type JobsForCitiesByDate = {

@@ -7,7 +7,7 @@ import { CityGroups } from '../data.actions';
 export function DynamicJobChart(){
 
     const DynamicJobChart = useMemo(() => dynamic(
-        () => import('@/app/components/charts/JobBarChart'),
+        () => import('@/app/components/charts/JobPieChart'),
         {
             loading: () => <div className='loading loading-spinner border-none'></div>,
             ssr: false
@@ -15,7 +15,7 @@ export function DynamicJobChart(){
     ), []);
 
     return(
-        <div className='w-full h-[600px]'>
+        <div>
             <DynamicJobChart></DynamicJobChart>
         </div>
     )
@@ -36,7 +36,10 @@ export function DynamicHeatMap({
     ), []);
 
     return(
-        <div className='flex justify-center'>
+        <div className='flex justify-center h-fit flex-col items-center mb-10'>
+            <div className='mb-5'>
+                <h1 className='text-2xl'>Heat map</h1>
+            </div>
             <DynamicHeatMap cityCoordinates={cityCoordinates}/>
         </div>
     )

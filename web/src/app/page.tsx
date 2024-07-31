@@ -8,7 +8,6 @@ export default async function Home() {
   const groups = await aggregateByCity();
   const title = await aggregateByTitle();
   const date = await aggregateByDate();
-  console.log(date);
   return (
     <main className="flex min-h-screen flex-col items-center justify-between">
       <div className="p-10">
@@ -18,11 +17,11 @@ export default async function Home() {
         </p>
       </div>
       <div className="grid grid-cols-2">
-        <div>
-          <div className="pb-4">
+        <div className="">
+          <div className="pb-4 ">
             <p className="text-5xl border-b-[1px] p-1">by city</p>
           </div>
-          <div className="overflow-y-auto mb-10">
+          <div className="overflow-y-auto mb-10 h-[400px]">
             {groups.map((row, index) => (
               <div key={index} className="p-1">
                 <p className="text-2xl">
@@ -38,7 +37,7 @@ export default async function Home() {
           <div className="pb-4">
             <p className="text-5xl border-b-[1px] p-1">by title</p>
           </div>
-          <div className="overflow-y-auto">
+          <div className="overflow-y-auto mb-10 h-[400px]">
             {title.map((row, index) => (
               <div key={index} className="p-1">
                 <p className="text-2xl">
