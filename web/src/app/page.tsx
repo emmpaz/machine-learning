@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { aggregateByCity, aggregateByTitle, getData } from "./data.actions";
+import { aggregateByCity, aggregateByDate, aggregateByTitle, getData } from "./data.actions";
 import { useCallback, useState } from "react";
 import {DynamicHeatMap, DynamicJobChart} from "./components/DynamicRenderingCharts";
 
@@ -7,7 +7,8 @@ export default async function Home() {
   const count = await getData();
   const groups = await aggregateByCity();
   const title = await aggregateByTitle();
-
+  const date = await aggregateByDate();
+  console.log(date);
   return (
     <main className="flex min-h-screen flex-col items-center justify-between">
       <div className="p-10">

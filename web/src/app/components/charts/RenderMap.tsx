@@ -15,6 +15,7 @@ export default function RenderMap({
 }) {
 
   const mapRef = useRef(null);
+  
   useEffect(() => {
     if (typeof window !== 'undefined' && mapRef.current) {
       var map = L.map("map").setView([39.8283, -98.5795], 4.5);
@@ -30,13 +31,12 @@ export default function RenderMap({
 
       //const points = [[39.8283, -98.5795, "2000"]]
 
-      console.log(points);
       L.heatLayer(points, {
         radius: 25,
         blur: 40,
         maxZoom: 10,
         max: maxCount,
-        gradient: {0: 'blue', .5: 'lime', .75: 'yellow', 1: 'red'}
+        gradient: {0: 'blue', .5: 'yellow', .8: 'red'}
       }).addTo(map);
     }
   }, []);
