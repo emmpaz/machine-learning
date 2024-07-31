@@ -53,19 +53,6 @@ export async function aggregateByCity(){
     return res.rows as CityGroups[];
 }
 
-export async function aggregateByDate(){
-    const res = await pool.query(`
-        SELECT p.date_posted, sq.city, COUNT(*) job_postings_for_date
-        FROM postings p
-        LEFT JOIN search_queries sq ON sq.id = p.search_query_id
-        WHERE sq.city = 'san francisco' OR sq.city = 'new york city' OR sq.city = 'chicago' OR sq.city = 'seattle'
-        GROUP BY p.date_posted, sq.city
-        ORDER BY job_postings_for_date DESC
-        `)
-    
-    return res.rows as JobsForCitiesByDate[];
-}
-
 export async function aggregateByTitle(){
     const res = await pool.query(`
        SELECT sq.search as job_title, COUNT(*) as posting_count
@@ -111,10 +98,4 @@ export async function aggregateByDate(){
             dateEntry[row.city] = row.job_postings_for_date;
         });
         return {transformedData, cityList};
-}
-
-export type JobsForCitiesByDate = {
-    date_posted: string,
-    city: string,
-    job_postings_for_date: number
 }
